@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: route-service
+  data:
+    mongodb:
+        url: mongodb://mongo:mongo@mongo:27017/testbase?authSource=admin&replicaSet=rs0&?directConnection=true
+        database: testbase
+        authentication-database: admin
+        replica-set-name: rs0
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+  main:
+    web-application-type: reactive
+
+app.base-url: /api/v1
+
+server:
+  port: ${APP_SERVER_PORT:8085}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+
+debug: true
+logging:
+  level:
+    itmo:
+      highload: WARN
+    web: WARN
+    org:
+      springframework:
+        security: WARN
+        web: WARN
+jwt:
+  secret:
+    sign: ${JWT_SECRET:0LHQvtC20LUg0L/QvtC80L7Qs9C4INC90LDQvCDQt9Cw0LrRgNGL0YLRjCDRjdGC0L7RgiDQv9GA0LXQtNC80LXRgg==}
