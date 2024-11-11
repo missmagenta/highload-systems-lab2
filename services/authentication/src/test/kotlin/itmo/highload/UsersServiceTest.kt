@@ -3,7 +3,7 @@ package itmo.highload
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import itmo.highload.model.Users
+import itmo.highload.model.User
 import itmo.highload.repository.UserRepository
 import itmo.highload.security.Role
 import itmo.highload.service.UserService
@@ -21,12 +21,12 @@ class UsersServiceTest {
 
     @Test
     fun `should return user when found by login`() {
-        val users = Users(
-            id = 1,
+        val users = User(
+            id = "1",
             login = "manager",
             password = "123",
-            role = Role.ADOPTION_MANAGER,
-            creationDate = LocalDate.now()
+            role = Role.OWNER,
+            registrationDate = LocalDate.now()
         )
 
         every { userRepository.findByLogin("manager") } returns Mono.just(users)

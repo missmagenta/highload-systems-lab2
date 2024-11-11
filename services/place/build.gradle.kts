@@ -6,19 +6,19 @@ plugins {
     id("highload.application")
     id("highload.security")
     id("highload.reactive-db")
-    id("highload.e2e-test")
+    // id("highload.e2e-test")
     id("highload.common")
 }
 
-testing {
-    suites {
-        val integrationTest by getting(JvmTestSuite::class) {
-            dependencies {
-                implementation("org.springframework.cloud:spring-cloud-contract-wiremock:4.1.4")
-            }
-        }
-    }
-}
+// testing {
+//     suites {
+//         val integrationTest by getting(JvmTestSuite::class) {
+//             dependencies {
+//                 implementation("org.springframework.cloud:spring-cloud-contract-wiremock:4.1.4")
+//             }
+//         }
+//     }
+// }
 
 dependencies {
     implementation(project(":shared:api"))

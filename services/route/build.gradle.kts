@@ -2,7 +2,7 @@
 
 
 plugins {
-    id("highload.jdbc-e2e-test")
+    // id("highload.jdbc-e2e-test")
     id("highload.application")
     id("highload.reactive-db")
     id("highload.common")

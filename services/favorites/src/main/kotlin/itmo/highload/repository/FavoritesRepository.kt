@@ -12,3 +12,4 @@ interface FavoritesRepository : ReactiveMongoRepository<Favorites, String> {
     fun findByUserIdAndPlaceId(userId: String, placeId: String): Mono<Favorites>
     fun existsByIdAndUserId(id: String, userId: String): Mono<Boolean>
 }
+

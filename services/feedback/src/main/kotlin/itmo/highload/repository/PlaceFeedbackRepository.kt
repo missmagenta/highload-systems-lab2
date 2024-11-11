@@ -10,3 +10,4 @@ interface PlaceFeedbackRepository: ReactiveMongoRepository<PlaceFeedback, String
     fun findByPlaceId(routeId: String): Flux<PlaceFeedback>
     fun deleteAllByPlaceId(placeId: String)
 }
+

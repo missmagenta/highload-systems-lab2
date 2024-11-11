@@ -12,8 +12,8 @@ import reactivefeign.spring.config.EnableReactiveFeignClients
 @EnableReactiveFeignClients
 @EnableHystrix
 @SpringBootApplication
-class FeedbackServiceApplication
+class FavoritesServiceApplication
 @Suppress("SpreadOperator")
 fun main(args: Array<String>) {
-    runApplication<FeedbackServiceApplication>(*args)
+    runApplication<FavoritesServiceApplication>(*args)
 }

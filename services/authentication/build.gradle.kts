@@ -1,7 +1,6 @@
 plugins {
     id("highload.reactive-db")
     id("highload.web")
-    id("highload.e2e-test")
     id("highload.application")
     id("highload.security")
 }

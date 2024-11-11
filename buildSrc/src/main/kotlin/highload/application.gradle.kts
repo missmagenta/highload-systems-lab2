@@ -49,7 +49,7 @@ gradle.projectsEvaluated {
             }
         }
         to {
-            image = "moleus/highload/${applicationExtension.serviceName.get()}:dev"
+            image = "magenta/highload/${applicationExtension.serviceName.get()}:dev"
         }
     }
 }

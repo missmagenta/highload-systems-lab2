@@ -46,9 +46,6 @@ testing {
                 implementation("org.testcontainers:junit-jupiter")
                 implementation("io.rest-assured:rest-assured")
                 implementation("org.liquibase:liquibase-core")
-
-                implementation("org.testcontainers:r2dbc")
-                implementation("org.springframework.data:spring-data-r2dbc")
                 implementation("io.projectreactor:reactor-core")
             }
 

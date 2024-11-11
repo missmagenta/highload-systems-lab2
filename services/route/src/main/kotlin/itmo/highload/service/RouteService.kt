@@ -20,7 +20,8 @@ class RouteService(
         return routeRepository.findAll()
     }
 
-    fun createRoute(request: CreateRouteRequest, userId: String): Mono<Route> = routeRepository.save(RouteRequestMapper.toEntity(request))
+    fun createRoute(request: CreateRouteRequest, userId: String): Mono<Route> = 
+        routeRepository.save(RouteRequestMapper.toEntity(request))
 
     fun deleteRoute(id: String, userId: String): Mono<Void> = routeRepository.deleteById(id)
 

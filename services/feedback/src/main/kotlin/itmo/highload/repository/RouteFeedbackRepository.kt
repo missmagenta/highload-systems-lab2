@@ -10,3 +10,4 @@ interface RouteFeedbackRepository: ReactiveMongoRepository<RouteFeedback, String
     fun findByRouteId(routeId: String): Flux<RouteFeedback>
     fun deleteAllByRouteId(routeId: String)
 }
+

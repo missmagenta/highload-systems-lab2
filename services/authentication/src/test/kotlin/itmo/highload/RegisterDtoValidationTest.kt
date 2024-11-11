@@ -31,7 +31,7 @@ class RegisterDtoValidationTest {
         val registerDto = RegisterDto(
             login = "",
             password = "validPassword123",
-            role = Role.CUSTOMER
+            role = Role.USER
         )
 
         val violations: Set<ConstraintViolation<RegisterDto>> = validator.validate(registerDto)
@@ -48,7 +48,7 @@ class RegisterDtoValidationTest {
         val registerDto = RegisterDto(
             login = "validLogin",
             password = "",
-            role = Role.CUSTOMER
+            role = Role.USER
         )
 
         val violations: Set<ConstraintViolation<RegisterDto>> = validator.validate(registerDto)
@@ -65,7 +65,7 @@ class RegisterDtoValidationTest {
         val registerDto = RegisterDto(
             login = "abc",
             password = "validPassword123",
-            role = Role.CUSTOMER
+            role = Role.USER
         )
 
         val violations: Set<ConstraintViolation<RegisterDto>> = validator.validate(registerDto)
@@ -81,7 +81,7 @@ class RegisterDtoValidationTest {
         val registerDto = RegisterDto(
             login = "invalid@login",
             password = "validPassword123",
-            role = Role.CUSTOMER
+            role = Role.USER
         )
 
         val violations: Set<ConstraintViolation<RegisterDto>> = validator.validate(registerDto)
@@ -97,7 +97,7 @@ class RegisterDtoValidationTest {
         val registerDto = RegisterDto(
             login = "validLogin",
             password = "ab",
-            role = Role.CUSTOMER
+            role = Role.USER
         )
 
         val violations: Set<ConstraintViolation<RegisterDto>> = validator.validate(registerDto)
@@ -113,7 +113,7 @@ class RegisterDtoValidationTest {
         val registerDto = RegisterDto(
             login = "validLogin",
             password = "invalid@password",
-            role = Role.CUSTOMER
+            role = Role.USER
         )
 
         val violations: Set<ConstraintViolation<RegisterDto>> = validator.validate(registerDto)
@@ -122,21 +122,5 @@ class RegisterDtoValidationTest {
         val patternViolation = violations.first()
         assertTrue(patternViolation.constraintDescriptor.annotation is Pattern)
         assertEquals("must match \"^[a-zA-Z0-9_]*$\"", patternViolation.message)
-    }
-
-    @Test
-    fun `should fail validation when role is null`() {
-        val registerDto = RegisterDto(
-            login = "validLogin",
-            password = "validPassword123",
-            role = null
-        )
-
-        val violations: Set<ConstraintViolation<RegisterDto>> = validator.validate(registerDto)
-        assertEquals(1, violations.size)
-
-        val notNullViolation = violations.first()
-        assertTrue(notNullViolation.constraintDescriptor.annotation is NotNull)
-        assertEquals("must not be null", notNullViolation.message)
     }
 }

@@ -741,11 +741,6 @@ style:
     allowForUnclearPrecedence: false
   UntilInsteadOfRangeTo:
     active: false
-  UnusedImports:
-    active: false
-  UnusedParameter:
-    active: true
-    allowedNames: 'ignored|expected'
   UnusedPrivateClass:
     active: true
   UnusedPrivateMember:

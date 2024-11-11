@@ -21,7 +21,10 @@ interface RouteService {
 
 @Component
 class RouteServiceFallback : RouteService {
-    override fun getRoute(@PathVariable id: String, @RequestHeader("Authorization") token: String): Mono<RouteResponse> {
+    override fun getRoute(
+        @PathVariable id: String, 
+        @RequestHeader("Authorization") token: String): Mono<RouteResponse> {
         return Mono.empty()
     }
 }
+

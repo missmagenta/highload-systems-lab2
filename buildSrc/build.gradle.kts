@@ -28,5 +28,5 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-noarg:2.0.10")
     // kotlin("spring")
     implementation("org.jetbrains.kotlin:kotlin-allopen:2.0.10")
-    implementation("com.google.cloud.tools:jib-gradle-plugin:3.4.2")
+    // implementation("com.google.cloud.tools:jib-gradle-plugin:3.4.2")
 }

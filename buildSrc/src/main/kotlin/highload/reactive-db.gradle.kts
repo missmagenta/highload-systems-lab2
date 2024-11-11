@@ -9,8 +9,6 @@ plugins {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.35")
 }
