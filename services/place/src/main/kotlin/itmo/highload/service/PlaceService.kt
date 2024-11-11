@@ -7,7 +7,7 @@ import itmo.highload.model.PlaceMapper
 import itmo.highload.repository.PlaceRepository
 import itmo.highload.service.contract.FavoritesService
 import itmo.highload.service.contract.FeedbackService
-import jakarta.persistence.EntityNotFoundException
+import itmo.highload.exceptions.EntityNotFoundException
 import org.springframework.data.geo.Distance
 import org.springframework.data.geo.Metrics
 import org.springframework.data.geo.Point

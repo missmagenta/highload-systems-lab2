@@ -10,7 +10,7 @@ import itmo.highload.repository.PlaceFeedbackRepository
 import itmo.highload.repository.RouteFeedbackRepository
 import itmo.highload.service.contract.PlaceService
 import itmo.highload.service.contract.RouteService
-import jakarta.persistence.EntityNotFoundException
+import itmo.highload.exceptions.EntityNotFoundException
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono

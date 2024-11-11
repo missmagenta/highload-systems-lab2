@@ -6,7 +6,7 @@ import itmo.highload.exceptions.EntityAlreadyExistsException
 import itmo.highload.model.Favorite
 import itmo.highload.model.Favorites
 import itmo.highload.service.contract.PlaceService
-import jakarta.persistence.EntityNotFoundException
+import itmo.highload.exceptions.EntityNotFoundException
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -44,8 +44,8 @@ class FavoritesService(
             .switchIfEmpty(Mono.error(EntityNotFoundException("Favorite with ID $id not found")))
     }
 
-    fun getFavoritesByUser(personId: String): Flux<Favorites> {
-        return favoritesRepository.findByUserId(personId)
+    fun getFavoritesByUser(userId: String): Flux<Favorites> {
+        return favoritesRepository.findByUserId(userId)
     }
 
     fun deleteFavorite(id: String, userId: String): Mono<Void> {

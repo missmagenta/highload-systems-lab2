@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 @ReactiveFeignClient(
     value = "place-service",
     url = "http://localhost:8086/api/v1",
-    fallback = RouteServiceFallback::class
+    fallback = PlaceServiceFallback::class
 )
 interface PlaceService {
     @GetMapping("/place/{id}")

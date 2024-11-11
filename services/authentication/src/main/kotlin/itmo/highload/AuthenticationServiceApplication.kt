@@ -5,8 +5,11 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 import org.springframework.boot.runApplication
 import org.springframework.web.reactive.config.EnableWebFlux
+import org.springframework.context.annotation.Import
+import itmo.highload.Config
 
 @EnableWebFlux
+@Import(Config::class)
 @SpringBootApplication(
     exclude = [
         SecurityAutoConfiguration::class,

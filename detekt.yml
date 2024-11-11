@@ -794,5 +794,5 @@ style:
       - 'io.restassured.*'
       - 'org.hamcrest.*'
       - 'org.junit.jupiter.*'
-      - 'jakarta.persistence.*'
+      - 'itmo.highload.exceptions.*'
 

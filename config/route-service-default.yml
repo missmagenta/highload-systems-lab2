@@ -3,15 +3,11 @@ spring:
     name: route-service
   data:
     mongodb:
-        url: mongodb://mongo:mongo@mongo:27017/testbase?authSource=admin&replicaSet=rs0&?directConnection=true
+        url: mongodb://mongo:mongo@mongo:27017/testbase?authSource=admin&directConnection=true
         database: testbase
         authentication-database: admin
-        replica-set-name: rs0
-  jpa:
-    show-sql: true
-    open-in-view: false
-    hibernate:
-      ddl-auto: none
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   main:
     web-application-type: reactive
 

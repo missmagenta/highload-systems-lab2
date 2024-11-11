@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono
 
 @Repository
 interface FavoritesRepository : ReactiveMongoRepository<Favorites, String> {
-    fun findByUserId(personId: String): Flux<Favorites>
+    fun findByUserId(userId: String): Flux<Favorites>
     fun findByUserIdAndPlaceId(userId: String, placeId: String): Mono<Favorites>
     fun existsByIdAndUserId(id: String, userId: String): Mono<Boolean>
 }

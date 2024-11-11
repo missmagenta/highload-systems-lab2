@@ -1,7 +1,7 @@
 package itmo.highload.api
 
 import itmo.highload.exceptions.EntityAlreadyExistsException
-import jakarta.persistence.EntityNotFoundException
+import itmo.highload.exceptions.EntityNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.AuthenticationException
 import org.springframework.web.bind.annotation.ControllerAdvice

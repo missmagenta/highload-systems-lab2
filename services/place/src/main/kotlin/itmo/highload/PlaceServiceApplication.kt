@@ -8,12 +8,14 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.web.reactive.config.EnableWebFlux
 import reactivefeign.spring.config.EnableReactiveFeignClients
-
+import org.springframework.context.annotation.Import
+import itmo.highload.Config
 
 @EnableWebFlux
 @EnableFeignClients
 @EnableReactiveFeignClients
 @EnableHystrix
+@Import(Config::class)
 @SpringBootApplication(
     exclude = [
         SecurityAutoConfiguration::class,
