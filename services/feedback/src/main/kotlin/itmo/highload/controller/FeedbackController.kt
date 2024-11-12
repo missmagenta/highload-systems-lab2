@@ -71,4 +71,20 @@ class FeedbackController(
     fun deletePlaceFeedback(@PathVariable id: String): Mono<Void> {
         return feedbackService.deletePlaceFeedback(id)
     }
+
+    @DeleteMapping("/place/batch/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyAuthority('OWNER')")
+    fun deleteFeedbacksForPlace(
+        @PathVariable("id") id: String): Mono<Void> {
+        return feedbackService.deleteFeedbacksForPlace(id)
+    }
+
+    @DeleteMapping("/route/batch/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyAuthority('OWNER')")
+    fun deleteFeedbacksForRoute(
+        @PathVariable("id") id: String): Mono<Void> {
+        return feedbackService.deleteFeedbacksForRoute(id)
+    }
 }

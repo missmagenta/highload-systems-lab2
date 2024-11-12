@@ -11,5 +11,7 @@ interface FavoritesRepository : ReactiveMongoRepository<Favorites, String> {
     fun findByUserId(userId: String): Flux<Favorites>
     fun findByUserIdAndPlaceId(userId: String, placeId: String): Mono<Favorites>
     fun existsByIdAndUserId(id: String, userId: String): Mono<Boolean>
+    fun existsByPlaceId(placeId: String): Mono<Boolean>
+    fun deleteAllByPlaceId(placeId: String): Mono<Void>
 }
 

@@ -7,7 +7,6 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix
 import org.springframework.cloud.openfeign.EnableFeignClients
 import reactivefeign.spring.config.EnableReactiveFeignClients
 import org.springframework.context.annotation.Import
-import itmo.highload.Config
 
 @EnableWebFlux
 @EnableFeignClients

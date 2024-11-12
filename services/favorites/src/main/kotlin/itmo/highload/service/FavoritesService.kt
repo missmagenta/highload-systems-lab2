@@ -1,12 +1,12 @@
 package itmo.highload.service
 
-import itmo.highload.repository.FavoritesRepository
 import itmo.highload.api.dto.CreateFavoritesRequest
 import itmo.highload.exceptions.EntityAlreadyExistsException
+import itmo.highload.exceptions.EntityNotFoundException
 import itmo.highload.model.Favorite
 import itmo.highload.model.Favorites
+import itmo.highload.repository.FavoritesRepository
 import itmo.highload.service.contract.PlaceService
-import itmo.highload.exceptions.EntityNotFoundException
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -17,11 +17,9 @@ class FavoritesService(
     private val placeService: PlaceService,
 ) {
 
-    fun addToFavorites(userId: String, favorite: CreateFavoritesRequest): Mono<Favorites> {
-        return placeService.getPlace(favorite.placeId)
-            .switchIfEmpty(
-                Mono.error(EntityNotFoundException("Place with ID ${favorite.placeId} not found"))
-            )
+    fun addToFavorites(token: String, favorite: CreateFavoritesRequest, userId: String): Mono<Favorites> {
+        return placeService.getPlace(favorite.placeId, token)
+            .switchIfEmpty(Mono.error(EntityNotFoundException("Place with ID ${favorite.placeId} not found")))
             .flatMap {
                 favoritesRepository.findByUserIdAndPlaceId(userId, favorite.placeId)
                     .flatMap<Favorites> {
@@ -57,5 +55,16 @@ class FavoritesService(
                     favoritesRepository.deleteById(id)
                 }
             }
+    }
+
+    fun deleteFavoritesForPlace(placeId: String): Mono<Void> {
+    return favoritesRepository.existsByPlaceId(placeId)
+        .flatMap { exists ->
+            if (!exists) {
+                Mono.error(EntityNotFoundException("No favorites found for placeId $placeId"))
+            } else {
+                favoritesRepository.deleteAllByPlaceId(placeId)
+            }
+        }
     }
 }

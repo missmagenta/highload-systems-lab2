@@ -9,12 +9,12 @@ spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
-
 server:
-  port: ${APP_SERVER_PORT:8087}
+  port: 8087
 
 app:
   base-url: /api/v1
+
 jwt:
   secret:
     sign: ${JWT_SECRET:0LHQvtC20LUg0L/QvtC80L7Qs9C4INC90LDQvCDQt9Cw0LrRgNGL0YLRjCDRjdGC0L7RgiDQv9GA0LXQtNC80LXRgg==}

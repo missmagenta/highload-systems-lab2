@@ -1,5 +1,6 @@
 package itmo.highload.service.contract
 
+import itmo.highload.api.dto.response.PlaceResponse
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -14,12 +15,14 @@ import reactor.core.publisher.Mono
 )
 interface PlaceService {
     @GetMapping("/place/{id}")
-    fun getPlace(@PathVariable id: String, @RequestHeader("Authorization") token: String): Mono<Int>
+    fun getPlace(@PathVariable id: String, @RequestHeader("Authorization") token: String): Mono<PlaceResponse>
 }
 
 @Component
 class PlaceServiceFallback : PlaceService {
-    override fun getPlace(@PathVariable id: String, @RequestHeader("Authorization") token: String): Mono<Int> {
+    override fun getPlace(
+        @PathVariable id: String, 
+        @RequestHeader("Authorization") token: String): Mono<PlaceResponse> {
         return Mono.empty()
     }
 }

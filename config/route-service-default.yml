@@ -11,10 +11,11 @@ spring:
   main:
     web-application-type: reactive
 
-app.base-url: /api/v1
+app:
+  base-url: /api/v1
 
 server:
-  port: ${APP_SERVER_PORT:8085}
+  port: 8085
 
 eureka:
   client:

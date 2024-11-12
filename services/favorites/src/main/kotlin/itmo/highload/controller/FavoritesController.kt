@@ -25,7 +25,7 @@ class FavoritesController(
         @RequestHeader("Authorization") token: String
     ): Mono<FavoritesResponse> {
         val userId = jwtUtils.extractUserId(token)
-        return favoritesService.addToFavorites(userId, favoriteEntity).map { FavoritesMapper.toResponse(it) }
+        return favoritesService.addToFavorites(token, favoriteEntity, userId).map { FavoritesMapper.toResponse(it) }
 
     }
 
@@ -53,5 +53,13 @@ class FavoritesController(
     fun deleteFavorite(@PathVariable id: String,  @RequestHeader("Authorization") token: String):Mono<Void> {
         val userId = jwtUtils.extractUserId(token)
         return favoritesService.deleteFavorite(id, userId)
+    }
+
+    @DeleteMapping("/place/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyAuthority('OWNER', 'USER')")
+    fun deleteFavoritesForPlace(
+        @PathVariable("id") id: String): Mono<Void> {
+        return favoritesService.deleteFavoritesForPlace(id)
     }
 }

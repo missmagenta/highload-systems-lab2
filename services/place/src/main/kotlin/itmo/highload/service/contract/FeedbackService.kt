@@ -15,13 +15,15 @@ import reactor.core.publisher.Mono
     fallback = FeedbackServiceFallback::class
 )
 interface FeedbackService {
-    @DeleteMapping("/feedback/place/{id}")
-    fun deleteFeedbacksForPlace(@PathVariable("id") id: String): Mono<Void>
+    @DeleteMapping("/feedback/place/batch/{id}")
+    fun deleteFeedbacksForPlace(@PathVariable("id") id: String, 
+    @RequestHeader("Authorization") token: String): Mono<Void>
 }
 
 @Component
 class FeedbackServiceFallback : FeedbackService {
-    override fun deleteFeedbacksForPlace(id: String): Mono<Void> {
+    override fun deleteFeedbacksForPlace(@PathVariable("id") id: String, 
+    @RequestHeader("Authorization") token: String): Mono<Void> {
         return Mono.empty()
     }
 }

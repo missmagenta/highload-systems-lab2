@@ -8,6 +8,8 @@ import itmo.highload.model.PlaceMapper
 import itmo.highload.security.jwt.JwtUtils
 import itmo.highload.service.PlaceService
 import jakarta.validation.Valid
+import jakarta.validation.constraints.DecimalMax
+import jakarta.validation.constraints.DecimalMin
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -23,7 +25,7 @@ class PlaceController(val placeService: PlaceService, private val jwtUtils: JwtU
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('OWNER', 'USER')")
-    fun getPlace(@PathVariable id: String): Mono<PlaceResponse> {
+    fun getPlace(@PathVariable id: String, @RequestHeader("Authorization") token: String): Mono<PlaceResponse> {
         return placeService.getPlace(id).map { PlaceMapper.toPlaceResponse(it) }
     }
 
@@ -60,6 +62,36 @@ class PlaceController(val placeService: PlaceService, private val jwtUtils: JwtU
         return placeService.updateDescription(ownerId, id, request.description).map { PlaceMapper.toPlaceResponse(it) }
     }
 
+    @GetMapping("/near")
+    @PreAuthorize("hasAnyAuthority('OWNER', 'USER')")
+    fun getPlacesNear(
+        @RequestParam @DecimalMin("-90.0") @DecimalMax("90.0") latitude: Double,
+        @RequestParam @DecimalMin("-180.0") @DecimalMax("180.0") longitude: Double,
+        @RequestParam(required = false, defaultValue = "5.0") distanceKm: Double
+    ): Flux<PlaceResponse> = placeService.getPlacesNear(latitude, longitude, distanceKm)
+                                        .map { PlaceMapper.toPlaceResponse(it) }
+
+    @GetMapping("/tag")
+    @PreAuthorize("hasAnyAuthority('OWNER', 'USER')")
+    fun getPlacesNearByTag(
+        @RequestParam @DecimalMin("-90.0") @DecimalMax("90.0") latitude: Double,
+        @RequestParam @DecimalMin("-180.0") @DecimalMax("180.0") longitude: Double,
+        @RequestParam(required = false, defaultValue = "5.0") distanceKm: Double,
+        @RequestParam tag: String,
+    ): Flux<PlaceResponse> = placeService.getPlacesNearByTag(latitude, longitude, distanceKm, tag)
+                                        .map { PlaceMapper.toPlaceResponse(it) }
+
+    @GetMapping("/name")
+    @PreAuthorize("hasAnyAuthority('OWNER', 'USER')")
+    fun getPlacesNearByName(
+        @RequestParam @DecimalMin("-90.0") @DecimalMax("90.0") latitude: Double,
+        @RequestParam @DecimalMin("-180.0") @DecimalMax("180.0") longitude: Double,
+        @RequestParam(required = false, defaultValue = "5.0") distanceKm: Double,
+        @RequestParam name: String,
+    ): Flux<PlaceResponse> = placeService.getPlacesNearByName(latitude, longitude, distanceKm, name)
+                                        .map { PlaceMapper.toPlaceResponse(it) }
+
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('OWNER')")
@@ -68,8 +100,7 @@ class PlaceController(val placeService: PlaceService, private val jwtUtils: JwtU
         @RequestHeader("Authorization") token: String
     ): Mono<Void> {
         val ownerId = jwtUtils.extractUserId(token)
-        return placeService.deletePlace(id, ownerId)
+        return placeService.deletePlace(id, ownerId, token)
     }
 
-    // ADD OTHER METHODS
 }

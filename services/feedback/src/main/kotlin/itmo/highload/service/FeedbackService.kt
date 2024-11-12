@@ -2,7 +2,7 @@ package itmo.highload.service
 
 import itmo.highload.api.dto.CreatePlaceFeedbackRequest
 import itmo.highload.api.dto.CreateRouteFeedbackRequest
-import itmo.highload.api.dto.response.RouteResponse
+import itmo.highload.exceptions.EntityNotFoundException
 import itmo.highload.model.Grade
 import itmo.highload.model.PlaceFeedback
 import itmo.highload.model.RouteFeedback
@@ -10,7 +10,6 @@ import itmo.highload.repository.PlaceFeedbackRepository
 import itmo.highload.repository.RouteFeedbackRepository
 import itmo.highload.service.contract.PlaceService
 import itmo.highload.service.contract.RouteService
-import itmo.highload.exceptions.EntityNotFoundException
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -80,5 +79,27 @@ class FeedbackService(
                 placeFeedbackRepository.deleteById(feedbackId)
             }
 
+    }
+
+    fun deleteFeedbacksForPlace(placeId: String): Mono<Void> {
+    return placeFeedbackRepository.existsByPlaceId(placeId)
+        .flatMap { exists ->
+            if (!exists) {
+                Mono.error(EntityNotFoundException("No feedbacks found for placeId $placeId"))
+            } else {
+                placeFeedbackRepository.deleteAllByPlaceId(placeId)
+            }
+        }
+    }
+
+    fun deleteFeedbacksForRoute(routeId: String): Mono<Void> {
+    return routeFeedbackRepository.existsByRouteId(routeId)
+        .flatMap { exists ->
+            if (!exists) {
+                Mono.error(EntityNotFoundException("No feedbacks found for routeId $routeId"))
+            } else {
+                routeFeedbackRepository.deleteAllByRouteId(routeId)
+            }
+        }
     }
 }

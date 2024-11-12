@@ -95,13 +95,13 @@ class PlaceService(
         )
     }
 
-    fun deletePlace(id: String, ownerId: String): Mono<Void> {
+    fun deletePlace(id: String, ownerId: String, token: String): Mono<Void> {
         return placeRepository.findByIdAndOwnersContains(id, ownerId)
-            .switchIfEmpty(Mono.error(EntityNotFoundException("Place with ID $id and owner $ownerId not found")))
+            .switchIfEmpty(Mono.error(EntityNotFoundException("Place with ID $id and owner ID $ownerId not found")))
             .flatMap { existingPlace ->
                 Mono.zip(
-                    feedbackService.deleteFeedbacksForPlace(id),
-                    favoritesService.deleteFavoritesForPlace(id)
+                    feedbackService.deleteFeedbacksForPlace(id, token),
+                    favoritesService.deleteFavoritesForPlace(id, token)
                 )
                     .then(placeRepository.delete(existingPlace))
             }

@@ -10,9 +10,11 @@ spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
+app:
+  base-url: /api/v1
+
 server:
-  port: ${APP_SERVER_PORT:8089}
-app.base-url: /api/v1
+  port: 8089
 
 jwt:
   secret:

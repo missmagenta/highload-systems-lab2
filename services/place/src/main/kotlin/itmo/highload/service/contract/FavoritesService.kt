@@ -15,13 +15,15 @@ import reactor.core.publisher.Mono
     fallback = FavoritesServiceFallback::class
 )
 interface FavoritesService {
-    @DeleteMapping("/favorites/batch/{id}")
-    fun deleteFavoritesForPlace(@PathVariable("id") id: String): Mono<Void>
+    @DeleteMapping("/favorites/place/{id}")
+    fun deleteFavoritesForPlace(@PathVariable("id") id: String, 
+    @RequestHeader("Authorization") token: String): Mono<Void>
 }
 
 @Component
 class FavoritesServiceFallback : FavoritesService {
-    override fun deleteFavoritesForPlace(id: String): Mono<Void> {
+    override fun deleteFavoritesForPlace(@PathVariable("id") id: String, 
+    @RequestHeader("Authorization") token: String): Mono<Void> {
         return Mono.empty()
     }
 }

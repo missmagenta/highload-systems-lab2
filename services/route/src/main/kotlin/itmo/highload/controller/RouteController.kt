@@ -35,10 +35,9 @@ class RouteController(
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('OWNER', 'USER')")
     fun createRoute(
-        @RequestBody @Valid request: CreateRouteRequest, @RequestHeader("Authorization") token: String
+        @RequestBody @Valid request: CreateRouteRequest,  @RequestHeader("Authorization") token: String
     ): Mono<RouteResponse> {
-        val userId = jwtUtils.extractUserId(token)
-        return routeService.createRoute(request, userId).map { RouteRequestMapper.toResponse(it) }
+        return routeService.createRoute(request, token).map { RouteRequestMapper.toResponse(it) }
     }
 
     @DeleteMapping("/{id}")
