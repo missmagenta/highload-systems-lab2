@@ -22,14 +22,14 @@ class FeedbackService(
     private val placeService: PlaceService
 ) {
 
-    fun createRouteFeedback(feedback: CreateRouteFeedbackRequest, token: String): Mono<RouteFeedback> {
+    fun createRouteFeedback(feedback: CreateRouteFeedbackRequest, token: String, userId: String): Mono<RouteFeedback> {
         return routeService.getRoute(feedback.routeId, token)
             .flatMap {
                 routeFeedbackRepository.save(
                     RouteFeedback(
                         routeId = feedback.routeId,
                         grade = Grade(
-                            userId = feedback.userId,
+                            userId = userId,
                             grade = feedback.grade,
                         )
                     )
@@ -52,14 +52,14 @@ class FeedbackService(
 
     }
 
-    fun createPlaceFeedback(feedback: CreatePlaceFeedbackRequest, token: String): Mono<PlaceFeedback> {
+    fun createPlaceFeedback(feedback: CreatePlaceFeedbackRequest, token: String, userId: String): Mono<PlaceFeedback> {
         return placeService.getPlace(feedback.placeId, token)
             .flatMap {
                 placeFeedbackRepository.save(
                     PlaceFeedback(
                         placeId = feedback.placeId,
                         grade = Grade(
-                            userId = feedback.userId,
+                            userId = userId,
                             grade = feedback.grade,
                         )
                     )

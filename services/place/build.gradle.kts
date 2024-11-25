@@ -6,8 +6,11 @@ plugins {
     id("highload.application")
     id("highload.security")
     id("highload.reactive-db")
-     id("highload.e2e-test")
+    id("highload.e2e-test")
     id("highload.common")
+
+    id("io.spring.dependency-management")
+    id("org.springframework.boot")
 }
 
  testing {

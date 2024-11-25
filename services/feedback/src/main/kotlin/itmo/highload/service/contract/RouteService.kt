@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono
 
 @ReactiveFeignClient(
     value = "route-service",
-    url = "http://localhost:8085/api/v1",
+    url = "http://route:8085/api/v1",
     fallback = RouteServiceFallback::class
 )
 interface RouteService {

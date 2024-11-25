@@ -41,7 +41,11 @@ class RouteService(
     }
 
 
-    fun deleteRoute(id: String, userId: String): Mono<Void> = routeRepository.deleteById(id)
+    fun deleteRoute(id: String, userId: String): Mono<Void> {
+        return routeRepository.findById(id)
+            .switchIfEmpty(Mono.error(EntityNotFoundException("Route with ID $id not found")))
+            .flatMap { routeRepository.deleteById(id) }
+    }
 
     fun findRoutesByPlaceContains(placeId: String): Flux<Route> {
         return routeRepository.findAllByPlacesContains(placeId)

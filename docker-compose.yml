@@ -36,9 +36,7 @@ services:
       - ~/.ssh/highload-cloud-config-ro:/root/.ssh/id_rsa:ro
       - ./config:/app/config
     environment:
-#      SPRING_PROFILES_ACTIVE: cloud
       SPRING_PROFILES_ACTIVE: standalone,native
-      # SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL: 'pavel/fill-docker-compose-file'
     env_file:
       - .env
     ports:
@@ -70,6 +68,8 @@ services:
 
   route:
     image: magenta/highload/route:dev
+    ports:
+      - '8085:8085'
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -81,6 +81,8 @@ services:
 
   place:
     image: magenta/highload/place:dev
+    ports:
+      - '8086:8086'
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -109,6 +111,8 @@ services:
 
   authentication:
     image: magenta/highload/authentication:dev
+    ports:
+      - '8087:8087'
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -120,6 +124,8 @@ services:
 
   feedback:
     image: magenta/highload/feedback:dev
+    ports:
+      - '8088:8088'
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -131,6 +137,8 @@ services:
 
   favorites:
     image: magenta/highload/favorites:dev
+    ports:
+      - '8089:8089'
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -166,3 +174,4 @@ volumes:
   
 networks:
   backend:
+    driver: bridge

@@ -8,6 +8,8 @@ spring:
         authentication-database: admin
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  main:
+    web-application-type: reactive
 
 app:
   base-url: /api/v1

@@ -12,9 +12,6 @@ data class CreatePlaceFeedbackRequest(
     @field:NotBlank(message = "route id must not be blank")
     val placeId: String,
 
-    @field:NotBlank(message = "user id must not be blank")
-    val userId: String,
-
     @field:NotNull(message = "grade must not be blank")
     @field:Min(value = 1, message = "grade must be at least 1")
     @field:Max(value = 5, message = "grade cannot be more than 5")

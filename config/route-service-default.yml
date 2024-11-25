@@ -10,6 +10,10 @@ spring:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   main:
     web-application-type: reactive
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
 app:
   base-url: /api/v1

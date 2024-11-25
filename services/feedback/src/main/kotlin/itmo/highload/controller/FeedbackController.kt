@@ -5,6 +5,7 @@ import itmo.highload.api.dto.CreateRouteFeedbackRequest
 import itmo.highload.api.dto.response.PlaceFeedbackResponse
 import itmo.highload.api.dto.response.RouteFeedbackResponse
 import itmo.highload.model.FeedbackMapper
+import itmo.highload.security.jwt.JwtUtils
 import itmo.highload.service.FeedbackService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -16,7 +17,7 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping("\${app.base-url}/feedback")
 class FeedbackController(
-    private val feedbackService: FeedbackService
+    private val feedbackService: FeedbackService, private val jwtUtils: JwtUtils
 ) {
 
     @PostMapping("/route")
@@ -26,7 +27,8 @@ class FeedbackController(
         @Valid @RequestBody feedback: CreateRouteFeedbackRequest,
         @RequestHeader("Authorization") token: String
     ): Mono<RouteFeedbackResponse> {
-        return feedbackService.createRouteFeedback(feedback, token).map { FeedbackMapper.toRouteResponse(it) }
+        val userId = jwtUtils.extractUserId(token)
+        return feedbackService.createRouteFeedback(feedback, token, userId).map { FeedbackMapper.toRouteResponse(it) }
 
     }
 
@@ -52,9 +54,10 @@ class FeedbackController(
     @PreAuthorize("hasAnyAuthority('OWNER', 'USER')")
     fun createPlaceFeedback(
         @Valid @RequestBody feedback: CreatePlaceFeedbackRequest,
-        @RequestHeader("Authorization") token: String): Mono<PlaceFeedbackResponse> {
-       return feedbackService.createPlaceFeedback(feedback, token).map { FeedbackMapper.toPlaceResponse(it) }
-
+        @RequestHeader("Authorization") token: String
+    ): Mono<PlaceFeedbackResponse> {
+        val userId = jwtUtils.extractUserId(token)
+        return feedbackService.createPlaceFeedback(feedback, token, userId).map { FeedbackMapper.toPlaceResponse(it) }
     }
 
     @GetMapping("/place/{id}")

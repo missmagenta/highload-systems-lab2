@@ -36,7 +36,6 @@ class PlaceService(
             .switchIfEmpty(
                 placeRepository.save(PlaceMapper.toEntity(ownerId, request))
             )
-
     }
 
     fun updateDescription(ownerId: String, id: String, description: String): Mono<Place> {

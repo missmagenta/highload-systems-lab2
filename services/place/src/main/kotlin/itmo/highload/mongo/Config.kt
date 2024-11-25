@@ -1,4 +1,4 @@
-package itmo.highload
+package itmo.highload.mongo
 
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
@@ -11,27 +11,27 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 
 @Configuration
 @PropertySource("classpath:mongo.properties")
-@EnableReactiveMongoRepositories
+@EnableReactiveMongoRepositories(basePackages = ["itmo.highload.repository"])
 class Config: AbstractReactiveMongoConfiguration() {
 
     @Value("\${mongo.url}")
-    private val url: String? = null
+    val url: String? = null
 
     @Value("\${mongo.db}")
-    private val database: String? = null
+    val database: String? = null
 
     @Value("\${mongo.user}")
-    private val user: String? = null
+    val user: String? = null
 
     @Value("\${mongo.password}")
-    private val password: String? = null
+    val password: String? = null
 
     @Value("\${mongo.authSource}")
-    private val authSource: String? = null
+    val authSource: String? = null
 
-    override fun getDatabaseName(): String = database!!
+    public override fun getDatabaseName(): String = database!!
 
-    override fun mongoClientSettings(): MongoClientSettings {
+    public override fun mongoClientSettings(): MongoClientSettings {
         val builder = MongoClientSettings.builder()
         builder.applyConnectionString(ConnectionString(url!!))
             .credential(
