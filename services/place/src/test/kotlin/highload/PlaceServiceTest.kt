@@ -14,7 +14,9 @@ import itmo.highload.model.PlaceMapper
 import itmo.highload.repository.PlaceRepository
 import itmo.highload.service.PlaceService
 import itmo.highload.service.contract.FavoritesService
+import itmo.highload.service.contract.FavoritesServiceFallback
 import itmo.highload.service.contract.FeedbackService
+import itmo.highload.service.contract.FeedbackServiceFallback
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.data.geo.Distance
@@ -32,6 +34,8 @@ class PlaceServiceTest {
     private val feedbackService: FeedbackService = mockk()
     private val favoritesService: FavoritesService = mockk()
     private val placeService = PlaceService(placeRepository, feedbackService, favoritesService)
+    private val feedbackServiceFallback: FeedbackServiceFallback = FeedbackServiceFallback()
+    private val favoritesServiceFallback: FavoritesServiceFallback = FavoritesServiceFallback()
 
     private val existingPlace = Place(
         id = "1",
@@ -314,7 +318,6 @@ class PlaceServiceTest {
 
     @Test
     fun `should map Place to PlaceResponse`() {
-        // Given
         val place = Place(
             id = UUID.randomUUID().toString(),
             name = "Test Place",
@@ -324,10 +327,8 @@ class PlaceServiceTest {
             description = "A place description"
         )
 
-        // When
         val result = PlaceMapper.toPlaceResponse(place)
 
-        // Then
         assertNotNull(result)
         assertEquals(place.id, result.id)
         assertEquals(place.name, result.name)
@@ -336,4 +337,50 @@ class PlaceServiceTest {
         assertEquals(place.tags, result.tags)
         assertEquals(place.description, result.description)
     }
+
+    @Test
+    fun `FeedbackService should return empty Mono when fallback is used directly`() {
+        val placeId = "place3"
+        val token = "validToken"
+
+        val result = feedbackServiceFallback.deleteFeedbacksForPlace(placeId, token)
+
+        StepVerifier.create(result)
+            .expectComplete()
+            .verify()
+
+    }
+
+    @Test
+    fun `FavoritesService should return empty Mono when fallback is used directly`() {
+        val placeId = "place3"
+        val token = "validToken"
+
+        val result = favoritesServiceFallback.deleteFavoritesForPlace(placeId, token)
+
+        StepVerifier.create(result)
+            .expectComplete()
+            .verify()
+
+    }
+
+    @Test
+    fun `should delete place successfully`() {
+        val placeId = "1"
+        val ownerId = "ownerId"
+        val token = "validToken"
+
+        every { placeRepository.findByIdAndOwnersContains(placeId, ownerId) } returns Mono.just(existingPlace)
+        every { feedbackService.deleteFeedbacksForPlace(placeId, token) } returns Mono.empty()
+        every { favoritesService.deleteFavoritesForPlace(placeId, token) } returns Mono.empty()
+        every { placeRepository.delete(existingPlace) } returns Mono.empty()
+
+        StepVerifier.create(placeService.deletePlace(placeId, ownerId, token))
+            .verifyComplete()
+
+        verify { feedbackService.deleteFeedbacksForPlace(placeId, token) }
+        verify { favoritesService.deleteFavoritesForPlace(placeId, token) }
+        verify { placeRepository.delete(existingPlace) }
+    }
+
 }

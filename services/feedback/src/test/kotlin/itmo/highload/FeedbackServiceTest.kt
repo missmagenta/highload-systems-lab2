@@ -47,14 +47,14 @@ class FeedbackServiceTest {
 
     @Test
     fun `should create route feedback when route exists`() {
-        val feedback = CreateRouteFeedbackRequest("route1", "user1", 5)
+        val feedback = CreateRouteFeedbackRequest("route1", 5)
         val route = RouteResponse(id = "route1", name = "Route 1", description = "Description", places = listOf())
         val expectedFeedback = RouteFeedback(routeId = "route1", grade = Grade(userId = "user1", grade = 5))
 
         every { routeService.getRoute(feedback.routeId, any()) } returns Mono.just(route)
         every { routeFeedbackRepository.save(any()) } returns Mono.just(expectedFeedback)
 
-        val result = feedbackService.createRouteFeedback(feedback, "token")
+        val result = feedbackService.createRouteFeedback(feedback, "token", "userId")
 
         StepVerifier.create(result)
             .expectNext(expectedFeedback)
@@ -66,11 +66,11 @@ class FeedbackServiceTest {
 
     @Test
     fun `should return error when route does not exist`() {
-        val feedback = CreateRouteFeedbackRequest("route1", "user1", 5)
+        val feedback = CreateRouteFeedbackRequest("route1", 5)
 
         every { routeService.getRoute(feedback.routeId, any()) } returns Mono.empty()
 
-        val result = feedbackService.createRouteFeedback(feedback, "token")
+        val result = feedbackService.createRouteFeedback(feedback, "token", "userId")
 
         StepVerifier.create(result)
             .expectError(EntityNotFoundException::class.java)
@@ -129,14 +129,14 @@ class FeedbackServiceTest {
 
     @Test
     fun `should create place feedback when place exists`() {
-        val feedback = CreatePlaceFeedbackRequest("place1", "user1", 5)
+        val feedback = CreatePlaceFeedbackRequest("place1",  5)
         val place = PlaceResponse(id = "place1", name = "Place 1", coordinates = Coordinates(12.34, 56.78), owners = listOf(), tags = listOf(), description = "Description")
         val expectedFeedback = PlaceFeedback(placeId = "place1", grade = Grade(userId = "user1", grade = 5))
 
         every { placeService.getPlace(feedback.placeId, any()) } returns Mono.just(place)
         every { placeFeedbackRepository.save(any()) } returns Mono.just(expectedFeedback)
 
-        val result = feedbackService.createPlaceFeedback(feedback, "token")
+        val result = feedbackService.createPlaceFeedback(feedback, "token", "userId")
 
         StepVerifier.create(result)
             .expectNext(expectedFeedback)
@@ -148,11 +148,11 @@ class FeedbackServiceTest {
 
     @Test
     fun `should return error when place does not exist`() {
-        val feedback = CreatePlaceFeedbackRequest("place1", "user1", 5)
+        val feedback = CreatePlaceFeedbackRequest("place1", 5)
 
         every { placeService.getPlace(feedback.placeId, any()) } returns Mono.empty()
 
-        val result = feedbackService.createPlaceFeedback(feedback, "token")
+        val result = feedbackService.createPlaceFeedback(feedback, "token", "userId")
 
         StepVerifier.create(result)
             .expectError(EntityNotFoundException::class.java)
